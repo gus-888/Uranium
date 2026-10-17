@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uranium - Motor de Renderização de Navegador</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Header Bar -->
+      <header class="app-header">
+        <div class="logo">
+          <span class="icon">⚛️</span>
+          <h1>Uranium</h1>
+          <span class="badge">Engine v0.1</span>
+        </div>
+        <div class="controls">
+          <label for="preset-select">Exemplos:</label>
+          <select id="preset-select">
+            <option value="welcome">Página de Boas-Vindas</option>
+            <option value="boxmodel">Teste de Box Model (Margens/Bordas)</option>
+            <option value="button3d">Botão 3D e Classes CSS</option>
+            <option value="columns">Layout de Colunas Lado a Lado</option>
+            <option value="textformatting">Formatação de Texto (Inline)</option>
+          </select>
+          <button id="btn-render" class="btn-primary">Renderizar ⚡</button>
+        </div>
+      </header>
+
+      <!-- Main Layout -->
+      <main class="main-container">
+        <!-- Editor Panel (Left) -->
+        <section class="panel editor-panel">
+          <div class="panel-tabs">
+            <button class="tab-btn active" data-tab="html-tab">HTML</button>
+            <button class="tab-btn" data-tab="css-tab">CSS</button>
+          </div>
+          <div class="tab-content" id="html-tab">
+            <div class="editor-container">
+              <div class="line-numbers" id="html-line-numbers"></div>
+              <textarea id="html-editor" spellcheck="false" placeholder="Digitar HTML aqui..."></textarea>
+            </div>
+          </div>
+          <div class="tab-content hidden" id="css-tab">
+            <div class="editor-container">
+              <div class="line-numbers" id="css-line-numbers"></div>
+              <textarea id="css-editor" spellcheck="false" placeholder="Digitar CSS aqui..."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- DevTools Panel (Right) -->
+        <section class="panel devtools-panel">
+          <div class="panel-tabs">
+            <button class="tab-btn active" data-tab="viewport-tab">🌐 Viewport</button>
+            <button class="tab-btn" data-tab="dom-tab">🌳 Árvore DOM</button>
+            <button class="tab-btn" data-tab="layout-tab">📦 Árvore de Layout</button>
+            <button class="tab-btn" data-tab="performance-tab">📊 Performance</button>
+          </div>
+
+          <!-- Viewport Tab -->
+          <div class="tab-content devtools-content" id="viewport-tab">
+            <div class="browser-mockbar">
+              <div class="browser-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="address-bar">
+                <span class="protocol">toybrowser://</span>
+                <input type="text" value="uranium-render.test" readonly />
+              </div>
+              <div class="viewport-presets">
+                <button class="viewport-btn active" data-width="800">Desktop (800px)</button>
+                <button class="viewport-btn" data-width="600">Tablet (600px)</button>
+                <button class="viewport-btn" data-width="375">Mobile (375px)</button>
+              </div>
+            </div>
+            <div class="canvas-wrapper" id="canvas-wrapper">
+              <canvas id="viewport-canvas" width="800" height="600"></canvas>
+              <canvas id="overlay-canvas" width="800" height="600"></canvas>
+            </div>
+          </div>
+
+          <!-- DOM Tree Tab -->
+          <div class="tab-content devtools-content hidden" id="dom-tab">
+            <div class="tree-container" id="dom-tree-container">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Layout Tree Tab -->
+          <div class="tab-content devtools-content hidden" id="layout-tab">
+            <div class="layout-inspector-grid">
+              <div class="layout-tree-panel">
+                <h3>Estrutura de Caixas</h3>
+                <div class="tree-container" id="layout-tree-container">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+              <div class="layout-details-panel">
+                <h3>Detalhes do Box Model</h3>
+                <div id="box-model-visual">
+                  <div class="box-model-container">
+                    <div class="box-model-label">margin</div>
+                    <div class="box-model-value top" id="bm-margin-top">-</div>
+                    <div class="box-model-value right" id="bm-margin-right">-</div>
+                    <div class="box-model-value bottom" id="bm-margin-bottom">-</div>
+                    <div class="box-model-value left" id="bm-margin-left">-</div>
+                    <div class="box-model-border">
+                      <div class="box-model-label">border</div>
+                      <div class="box-model-value top" id="bm-border-top">-</div>
+                      <div class="box-model-value right" id="bm-border-right">-</div>
+                      <div class="box-model-value bottom" id="bm-border-bottom">-</div>
+                      <div class="box-model-value left" id="bm-border-left">-</div>
+                      <div class="box-model-padding">
+                        <div class="box-model-label">padding</div>
+                        <div class="box-model-value top" id="bm-padding-top">-</div>
+                        <div class="box-model-value right" id="bm-padding-right">-</div>
+                        <div class="box-model-value bottom" id="bm-padding-bottom">-</div>
+                        <div class="box-model-value left" id="bm-padding-left">-</div>
+                        <div class="box-model-content">
+                          <div id="bm-content-dim">- x -</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3>Estilos Computados</h3>
+                <div class="computed-styles-wrapper">
+                  <table id="computed-styles-table">
+                    <thead>
+                      <tr>
+                        <th>Propriedade</th>
+                        <th>Valor Computado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Rendered dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Performance Tab -->
+          <div class="tab-content devtools-content hidden" id="performance-tab">
+            <div class="perf-dashboard">
+              <h3>Tempo de Execução do Pipeline</h3>
+              <div class="perf-metric">
+                <div class="perf-label">
+                  <span>HTML Parsing</span>
+                  <strong id="perf-time-html">0.0 ms</strong>
+                </div>
+                <div class="perf-bar-bg"><div class="perf-bar-fill" id="perf-bar-html" style="width: 0%"></div></div>
+              </div>
+              <div class="perf-metric">
+                <div class="perf-label">
+                  <span>CSS Parsing</span>
+                  <strong id="perf-time-css">0.0 ms</strong>
+                </div>
+                <div class="perf-bar-bg"><div class="perf-bar-fill" id="perf-bar-css" style="width: 0%"></div></div>
+              </div>
+              <div class="perf-metric">
+                <div class="perf-label">
+                  <span>Style Resolution (CSSOM Match)</span>
+                  <strong id="perf-time-style">0.0 ms</strong>
+                </div>
+                <div class="perf-bar-bg"><div class="perf-bar-fill" id="perf-bar-style" style="width: 0%"></div></div>
+              </div>
+              <div class="perf-metric">
+                <div class="perf-label">
+                  <span>Layout Box Tree & Coordinates</span>
+                  <strong id="perf-time-layout">0.0 ms</strong>
+                </div>
+                <div class="perf-bar-bg"><div class="perf-bar-fill" id="perf-bar-layout" style="width: 0%"></div></div>
+              </div>
+              <div class="perf-metric">
+                <div class="perf-label">
+                  <span>Painting Generation & Canvas Drawing</span>
+                  <strong id="perf-time-paint">0.0 ms</strong>
+                </div>
+                <div class="perf-bar-bg"><div class="perf-bar-fill" id="perf-bar-paint" style="width: 0%"></div></div>
+              </div>
+              <div class="perf-metric total">
+                <div class="perf-label">
+                  <span>Tempo Total de Renderização</span>
+                  <strong id="perf-time-total">0.0 ms</strong>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 30px;">Estatísticas da Página</h3>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-num" id="stat-nodes">0</div>
+                  <div class="stat-desc">Nós na árvore DOM</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-num" id="stat-rules">0</div>
+                  <div class="stat-desc">Regras CSS carregadas</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-num" id="stat-boxes">0</div>
+                  <div class="stat-desc">Caixas de Layout geradas</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-num" id="stat-commands">0</div>
+                  <div class="stat-desc">Comandos de Pintura (Draws)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

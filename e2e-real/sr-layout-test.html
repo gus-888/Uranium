@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>SR layout test</title></head>
+<body style="background:#0f0f0f">
+<div id="host"></div>
+<script>
+  var h = document.getElementById('host');
+  var sr = h.attachShadow({mode:'open'});
+  var d = document.createElement('div');
+  d.setAttribute('style','display:flex;padding:20px;background:#272727;margin-top:100px;');
+  var c1 = document.createElement('div');
+  c1.setAttribute('style','flex:1;color:#f1f1f1;font-size:24px;');
+  c1.textContent = 'COLUNA PRIMARIA';
+  var c2 = document.createElement('div');
+  c2.setAttribute('style','width:200px;color:#aaa;font-size:14px;');
+  c2.textContent = 'COLUNA SECUNDARIA';
+  d.appendChild(c1); d.appendChild(c2);
+  var h1 = document.createElement('h1');
+  h1.setAttribute('style','color:red;font-size:30px;');
+  h1.textContent = 'TITULO NO SHADOW ROOT';
+  sr.appendChild(h1);
+  sr.appendChild(d);
+  document.title = 'ok';
+</script>
+</body></html>

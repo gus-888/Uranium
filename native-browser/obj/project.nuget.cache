@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "MCXxv2tsZ9A=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Hyper8\\Documents\\uranium\\native-browser\\native-browser.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Hyper8\\.nuget\\packages\\esprima\\3.0.4\\esprima.3.0.4.nupkg.sha512",
+    "C:\\Users\\Hyper8\\.nuget\\packages\\excss\\4.2.3\\excss.4.2.3.nupkg.sha512",
+    "C:\\Users\\Hyper8\\.nuget\\packages\\jint\\3.0.0\\jint.3.0.0.nupkg.sha512",
+    "C:\\Users\\Hyper8\\.nuget\\packages\\libvlcsharp\\3.10.2\\libvlcsharp.3.10.2.nupkg.sha512",
+    "C:\\Users\\Hyper8\\.nuget\\packages\\svg\\3.4.7\\svg.3.4.7.nupkg.sha512",
+    "C:\\Users\\Hyper8\\.nuget\\packages\\videolan.libvlc.windows\\3.0.24\\videolan.libvlc.windows.3.0.24.nupkg.sha512",
+    "C:\\Users\\Hyper8\\.nuget\\packages\\youtubeexplode\\6.6.2\\youtubeexplode.6.6.2.nupkg.sha512"
+  ],
+  "logs": []
+}
