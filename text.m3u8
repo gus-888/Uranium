@@ -1,0 +1,6 @@
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:10
+#EXTINF:-1 tvg-name="Premiere 2 4K" tvg-logo="http://149.102.252.201/static/logos/canais/premiere.png" group-title="Canais | Premiere",Premiere 2 4K
+http://149.102.252.201:80/171350/B89tAq/103482.ts
+#EXT-X-ENDLIST
